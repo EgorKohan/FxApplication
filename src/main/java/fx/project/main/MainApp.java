@@ -2,6 +2,7 @@ package fx.project.main;
 
 import fx.project.controller.PersonEditDialogController;
 import fx.project.controller.PersonOverviewController;
+import fx.project.controller.RootLayoutController;
 import fx.project.model.Person;
 import fx.project.model.PersonListWrapper;
 import javafx.application.Application;
@@ -29,18 +30,6 @@ public class MainApp extends Application {
 
     private final ObservableList<Person> personData = FXCollections.observableArrayList();
 
-//    public MainApp(){
-//        personData.add(new Person("Hans", "Muster"));
-//        personData.add(new Person("Ruth", "Mueller"));
-//        personData.add(new Person("Heinz", "Kurz"));
-//        personData.add(new Person("Cornelia", "Meier"));
-//        personData.add(new Person("Werner", "Meyer"));
-//        personData.add(new Person("Lydia", "Kunz"));
-//        personData.add(new Person("Anna", "Best"));
-//        personData.add(new Person("Stefan", "Meier"));
-//        personData.add(new Person("Martin", "Mueller"));
-//    }
-
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -56,16 +45,27 @@ public class MainApp extends Application {
     public void initRootLayout() {
         try {
             // Загружаем корневой макет из fxml файла.
-            rootLayout = FXMLLoader.load(getClass()
-                    .getResource("/RootLayout.fxml"));
+            final FXMLLoader root = new FXMLLoader();
+            root.setLocation(getClass().getResource("/RootLayout.fxml"));
+
+            rootLayout = root.load();
+
+            RootLayoutController rootLayoutController = root.getController();
+            rootLayoutController.setMainApp(this);
 
             // Отображаем сцену, содержащую корневой макет.
-            Scene scene = new Scene(rootLayout);
+            Scene scene = new Scene(this.rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        File file = getPersonFilePath();
+        if(file != null){
+            loadPersonDataFromFile(file);
+        }
+
     }
 
     /**

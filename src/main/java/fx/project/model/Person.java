@@ -1,21 +1,33 @@
 package fx.project.model;
 
 import fx.project.util.DateUtil;
+import fx.project.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
+@XmlType(propOrder = {
+        "firstName",
+        "lastName",
+        "city",
+        "street",
+        "postalCode",
+        "birthday"
+})
 public class Person {
 
-    private StringProperty firstName;
-    private StringProperty lastName;
-    private StringProperty city;
-    private StringProperty street;
-    private IntegerProperty postalCode;
-    private ObjectProperty<LocalDate> birthday;
+    private final StringProperty firstName;
+    private final StringProperty lastName;
+    private final StringProperty city;
+    private final StringProperty street;
+    private final IntegerProperty postalCode;
+    private final ObjectProperty<LocalDate> birthday;
 
     public Person() {
-        this(null,null);
+        this(null, null);
     }
 
     public Person(String firstName, String lastName) {
@@ -88,15 +100,12 @@ public class Person {
         this.postalCode.set(postalCode);
     }
 
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     public LocalDate getBirthday() {
         return birthday.get();
     }
 
-    public ObjectProperty<LocalDate> birthdayProperty() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday.set(DateUtil.parse(birthday));
+    public void setBirthday(LocalDate birthday) {
+        this.birthday.set(birthday);
     }
 }

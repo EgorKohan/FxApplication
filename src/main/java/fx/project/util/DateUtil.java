@@ -1,5 +1,6 @@
 package fx.project.util;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,7 +8,7 @@ import java.time.format.DateTimeParseException;
 public class DateUtil {
 
     /** Шаблон даты, используемый для преобразования. Можно поменять на свой. */
-    private static final String DATE_PATTERN = "dd.MM.yyyy";
+    private static final String DATE_PATTERN = "uuuu.MM.dd";
 
     /** Форматировщик даты. */
     private static final DateTimeFormatter DATE_FORMATTER =
