@@ -1,5 +1,6 @@
 package fx.project.main;
 
+import fx.project.controller.BirthdayStatisticsController;
 import fx.project.controller.PersonEditDialogController;
 import fx.project.controller.PersonOverviewController;
 import fx.project.controller.RootLayoutController;
@@ -9,6 +10,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
@@ -239,6 +241,30 @@ public class MainApp extends Application {
             alert.setContentText("Could not save data to file:\n" + file.getPath());
             alert.getDialogPane().setContentText(e.getMessage());
             alert.showAndWait();
+        }
+    }
+
+    public void showBirthdayStatistics(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/BirthdayStatistics.fxml"));
+            Parent statistics = loader.load();
+
+            Scene scene = new Scene(statistics);
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Birthday Statistics");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(primaryStage);
+
+            BirthdayStatisticsController controller = loader.getController();
+            controller.setPersonData(personData);
+
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
